@@ -51,3 +51,18 @@ document
   .addEventListener('click', function () {
     message.remove();
   });
+
+// Styling
+//* Note: Styles are added as inline-styles in the DOM
+message.style.backgroundColor = '#37383d';
+message.style.width = '120%';
+
+// Smooth Scrolling
+const buttonScrollTo = document.querySelector('.btn--scroll-to');
+const section1 = document.getElementById('section--1');
+
+buttonScrollTo.addEventListener('click', function (e) {
+  section1.scrollIntoView({
+    behavior: 'smooth',
+  });
+});
