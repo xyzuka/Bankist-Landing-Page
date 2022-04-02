@@ -106,7 +106,6 @@ tabsContainer.addEventListener('click', function (e) {
 });
 
 // Navigation fade animation
-
 const handleHover = function (e, opacity) {
   if (e.target.classList.contains('nav__link')) {
     const link = e.target;
@@ -123,6 +122,15 @@ const handleHover = function (e, opacity) {
 nav.addEventListener('mouseover', function (e) {
   handleHover(e, 0.5);
 });
+
 nav.addEventListener('mouseout', function (e) {
   handleHover(e, 1);
+});
+
+// Sticky Navigation
+const initialCoords = section1.getBoundingClientRect();
+
+window.addEventListener('scroll', function () {
+  if (window.scrollY > initialCoords.top) nav.classList.add('sticky');
+  else nav.classList.remove('sticky');
 });
