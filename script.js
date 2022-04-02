@@ -13,8 +13,7 @@ const tabsContent = document.querySelectorAll('.operations__content');
 const nav = document.querySelector('.nav');
 const header = document.querySelector('.header');
 
-// Modal window
-
+//* Modal window
 const openModal = function (e) {
   e.preventDefault();
   modal.classList.remove('hidden');
@@ -37,7 +36,7 @@ document.addEventListener('keydown', function (e) {
   }
 });
 
-// Smooth Scrolling navigation
+//* Smooth Scrolling navigation
 // Using event delegation - placing the eventListener on a common parent of all the elements that we are interested in
 // 1. Add event listener to common parent element
 // 2. Determine what element originated the event
@@ -60,29 +59,29 @@ buttonScrollTo.addEventListener('click', function (e) {
   });
 });
 
-// Cookies Pop-up
+//* Cookies Pop-up
 // Creating and inserting cookie message
-const message = document.createElement('div');
-message.classList.add('cookie-message');
-message.innerHTML =
-  'We use cookies for improved functionality and analytics. <button class="btn btn--close-cookie">Got it!</button>';
+// const message = document.createElement('div');
+// message.classList.add('cookie-message');
+// message.innerHTML =
+//   'We use cookies for improved functionality and analytics. <button class="btn btn--close-cookie">Got it!</button>';
 
-// Inserting
-header.append(message);
+// // Inserting
+// header.append(message);
 
-// Deleting
-document
-  .querySelector('.btn--close-cookie')
-  .addEventListener('click', function () {
-    message.remove();
-  });
+// // Deleting
+// document
+//   .querySelector('.btn--close-cookie')
+//   .addEventListener('click', function () {
+//     message.remove();
+//   });
 
-// Styling
-//* Note: Styles are added as inline-styles in the DOM
-message.style.backgroundColor = '#37383d';
-message.style.width = '120%';
+// // Styling
+// //* Note: Styles are added as inline-styles in the DOM
+// message.style.backgroundColor = '#37383d';
+// message.style.width = '120%';
 
-// Tabbed component functionality
+//* Tabbed component functionality
 tabsContainer.addEventListener('click', function (e) {
   const clicked = e.target.closest('.operations__tab');
 
@@ -103,7 +102,7 @@ tabsContainer.addEventListener('click', function (e) {
     .classList.add('operations__content--active');
 });
 
-// Navigation fade animation
+//* Navigation fade animation
 const handleHover = function (e, opacity) {
   if (e.target.classList.contains('nav__link')) {
     const link = e.target;
@@ -125,7 +124,7 @@ nav.addEventListener('mouseout', function (e) {
   handleHover(e, 1);
 });
 
-// Sticky Navigation
+//* Sticky Navigation
 // Not recommended -> Performance issues for slower mobile devices
 // const initialCoords = section1.getBoundingClientRect();
 
@@ -134,9 +133,8 @@ nav.addEventListener('mouseout', function (e) {
 //   else nav.classList.remove('sticky');
 // });
 
-// Sticky Nav using the intersection observer API
+//* Sticky Nav using the intersection observer API
 const navHeight = nav.getBoundingClientRect().height;
-console.log(navHeight);
 
 const stickyNav = function (entries) {
   const [entry] = entries;
@@ -154,3 +152,27 @@ const headerObserver = new IntersectionObserver(stickyNav, {
 
 // Observes whether the header section is intersecting the view port
 headerObserver.observe(header);
+
+//* Reveal elements on scroll
+const allSections = document.querySelectorAll('.section');
+
+const revealSection = function (entries, observer) {
+  const [entry] = entries;
+  console.log(entry);
+
+  if (!entry.isIntersecting) return;
+
+  entry.target.classList.remove('section--hidden');
+
+  observer.unobserve(entry.target);
+};
+
+const sectionObserver = new IntersectionObserver(revealSection, {
+  root: null,
+  threshold: 0.15,
+});
+
+allSections.forEach(function (section) {
+  sectionObserver.observe(section);
+  section.classList.add('section--hidden');
+});
