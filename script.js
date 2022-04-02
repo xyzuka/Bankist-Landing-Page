@@ -7,6 +7,8 @@ const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
 const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
+const buttonScrollTo = document.querySelector('.btn--scroll-to');
+const section1 = document.getElementById('section--1');
 
 const openModal = function (e) {
   e.preventDefault();
@@ -30,9 +32,30 @@ document.addEventListener('keydown', function (e) {
   }
 });
 
-// SELECTING, CREATING, AND DELETING ELEMENTS
-// COOKIES POPUP
+// Smooth Scrolling navigation
+// Using event delegation - placing the eventListener on a common parent of all the elements that we are interested in
+// 1. Add event listener to common parent element
+// 2. Determine what element originated the event
 
+document.querySelector('.nav__links').addEventListener('click', function (e) {
+  e.preventDefault();
+  // Matching strategy - ignores clicks that did not happen on the links with the class name of nav__link
+  if (e.target.classList.contains('nav__link')) {
+    const id = e.target.getAttribute('href');
+    document.querySelector(id).scrollIntoView({
+      behavior: 'smooth',
+    });
+  }
+});
+
+// Smooth Scrolling
+buttonScrollTo.addEventListener('click', function (e) {
+  section1.scrollIntoView({
+    behavior: 'smooth',
+  });
+});
+
+// Cookies Pop-up
 // Selecting header
 const header = document.querySelector('.header');
 
@@ -56,13 +79,3 @@ document
 //* Note: Styles are added as inline-styles in the DOM
 message.style.backgroundColor = '#37383d';
 message.style.width = '120%';
-
-// Smooth Scrolling
-const buttonScrollTo = document.querySelector('.btn--scroll-to');
-const section1 = document.getElementById('section--1');
-
-buttonScrollTo.addEventListener('click', function (e) {
-  section1.scrollIntoView({
-    behavior: 'smooth',
-  });
-});
