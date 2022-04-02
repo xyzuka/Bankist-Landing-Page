@@ -11,6 +11,7 @@ const tabs = document.querySelectorAll('.operations__tab');
 const tabsContainer = document.querySelector('.operations__tab-container');
 const tabsContent = document.querySelectorAll('.operations__content');
 const nav = document.querySelector('.nav');
+const header = document.querySelector('.header');
 
 // Modal window
 
@@ -60,9 +61,6 @@ buttonScrollTo.addEventListener('click', function (e) {
 });
 
 // Cookies Pop-up
-// Selecting header
-const header = document.querySelector('.header');
-
 // Creating and inserting cookie message
 const message = document.createElement('div');
 message.classList.add('cookie-message');
@@ -128,9 +126,31 @@ nav.addEventListener('mouseout', function (e) {
 });
 
 // Sticky Navigation
-const initialCoords = section1.getBoundingClientRect();
+// Not recommended -> Performance issues for slower mobile devices
+// const initialCoords = section1.getBoundingClientRect();
 
-window.addEventListener('scroll', function () {
-  if (window.scrollY > initialCoords.top) nav.classList.add('sticky');
+// window.addEventListener('scroll', function () {
+//   if (window.scrollY > initialCoords.top) nav.classList.add('sticky');
+//   else nav.classList.remove('sticky');
+// });
+
+// Sticky Nav using the intersection observer API
+const navHeight = nav.getBoundingClientRect().height;
+console.log(navHeight);
+
+const stickyNav = function (entries) {
+  const [entry] = entries;
+
+  // Apply the sticky nav if the header section is not intersecting the viewport
+  if (!entry.isIntersecting) nav.classList.add('sticky');
   else nav.classList.remove('sticky');
+};
+
+const headerObserver = new IntersectionObserver(stickyNav, {
+  root: null,
+  threshold: 0,
+  rootMargin: `-${navHeight}px`,
 });
+
+// Observes whether the header section is intersecting the view port
+headerObserver.observe(header);
